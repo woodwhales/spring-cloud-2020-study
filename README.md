@@ -4,9 +4,7 @@
 
 # 概述
 
-尚硅谷2020最新版SpringCloud(H版&alibaba)框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)：
-
-
+Spring Cloud 第二季：
 
 > 对应视频：[尚硅谷2020最新版SpringCloud(H版&alibaba)框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV18E411x7eT?p=4)
 >
@@ -16,31 +14,33 @@
 >
 > 对应资料：[尚硅谷SpringCloud第2季2020.3.2.mmap](doc/尚硅谷SpringCloud第2季/尚硅谷SpringCloud第2季2020.3.2.mmap)，建议使用[百度脑图](https://naotu.baidu.com)打开（只能看文字，不能看图片）。
 >
-> 所需软件：
->
-> apache-jmeter-5.3：https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.zip
->
-> consul_1.7.2_windows_amd64：https://releases.hashicorp.com/consul/1.7.2/consul_1.7.2_windows_amd64.zip
->
-> nacos-server-1.1.4：https://github.com/alibaba/nacos/releases/download/1.1.4/nacos-server-1.1.4.zip
->
-> seata-server-0.9.0：https://github.com/seata/seata/releases/download/v0.9.0/seata-server-0.9.0.zip
->
-> sentinel-dashboard-1.6.3：https://github.com/alibaba/Sentinel/releases/download/1.6.3/sentinel-dashboard-1.6.3.jar
->
-> zipkin-server-2.12.9-exec：https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9-exec.jar
->
-> zookeeper-3.4.11：https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz
->
-> 想完全打开思维导图，则需要安装 MindManager：https://www.mindmanager.com/en/support/download-library/
->
 > 网友整理的学习笔记或者资料：
 >
 > https://github.com/liusCoding/springcloud-2020
 >
 > https://github.com/leelovejava/cloud2020
 
-思维导图大纲如下：
+
+所需软件：
+
+apache-jmeter-5.3：https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.3.zip
+
+consul_1.7.2_windows_amd64：https://releases.hashicorp.com/consul/1.7.2/consul_1.7.2_windows_amd64.zip
+
+nacos-server-1.1.4：https://github.com/alibaba/nacos/releases/download/1.1.4/nacos-server-1.1.4.zip
+
+seata-server-0.9.0：https://github.com/seata/seata/releases/download/v0.9.0/seata-server-0.9.0.zip
+
+sentinel-dashboard-1.6.3：https://github.com/alibaba/Sentinel/releases/download/1.6.3/sentinel-dashboard-1.6.3.jar
+
+zipkin-server-2.12.9-exec：https://dl.bintray.com/openzipkin/maven/io/zipkin/java/zipkin-server/2.12.9/zipkin-server-2.12.9-exec.jar
+
+zookeeper-3.4.11：https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz
+
+想完全打开思维导图，则需要安装 MindManager：https://www.mindmanager.com/en/support/download-library/
+
+
+课程大纲的思维导图如下：
 
 ![](doc/images/spring-cloud-2020-study-guide.png)
 
@@ -52,9 +52,7 @@
 
 Git 源码地址：https:github.com/spring-projects/spring-boot/releases/
 
-Spring Boot 2.0 wiki：https:github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Release-Notes
-
-Spring Cloud 第一季：
+Spring Cloud 视频教程第一季大纲：
 
 ![](doc/images/spring-cloud-2018.png)
 
@@ -108,7 +106,63 @@ juc 与 jvm _并发编程
 
 # 二、从2.2.x和H版开始说起
 
+Spring Boot 2.0 wiki：https:github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Release-Notes
+
+Spring Cloud 版本选择需要注意对应 Spring Boot 版本，在 Spring Cloud 官网中 https://spring.io/projects/spring-cloud/#overview 提到：
+
+![](doc/images/spring-cloud-and-spring-boot-version.png)
+
+本视频教程时，2020 年 02 月 15 日 之前，Spring Cloud 最新版本为：Hoxton.SR1，支持的 Spring Boot 版本为：2.2.2.RELEASE。
+
+Spring Cloud 版本可支持的 Spring Boot 版本，在其官网：中已经写明：
+
+![](doc/images/spring-cloud-guide1.png)
+
+![](doc/images/spring-cloud-guide2.png)
+
+Spring 系列版本对应关系，官方参考地址：https://start.spring.io/actuator/info
+
+本笔记使用版本：
+
+	cloud：Hoxton.SR1
+	boot：2.2.RELEASE
+	cloud：alibaba 2.1.0.RELEASE
+	java：Java8
+	Maven：3.5及以上
+	mysql：5.7及以上
+
 # 三、关于Cloud各种组件的停更/升级/替换
+
+截止 2020 年，Spring Cloud 各种组件的停更/升级/替换：
+
+- 服务注册中心
+  Eureka：停更			
+  Zookeeper：替代品
+  Consul：替代品
+  Spring Cloud Alibaba Nacos：替代品（主推）
+
+- 服务调用
+  Ribbon：更新变慢，有停更趋势
+  Loadbalancer：Spring 新主推产品
+
+- 服务调用
+  Feign：停更
+  OpenFeign：Spring 新主推产品
+- 服务降级
+  Hystrix：停更
+  resilience4j：替代品，国外使用多
+  alibaba Sentinel：替代品，国内使用多
+- 服务网关
+  Zuul：停更
+  Zuul2：推出时间未知，慎用
+  gateway：Spring 新主推产品
+- 服务配置
+  Config：停更
+  Spring Cloud Alibaba Nacos：替代品（主推）
+  apollo：替代品
+- 服务主线
+  Bus：停更
+  Spring Cloud Alibaba Nacos：替代品（主推）
 
 # 四、微服务架构编码、构建
 
