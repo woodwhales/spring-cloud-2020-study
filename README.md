@@ -4,6 +4,8 @@
 
 # 概述
 
+## 课程相关资料
+
 Spring Cloud 第二季：
 
 > 对应视频：[尚硅谷2020最新版SpringCloud(H版&alibaba)框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV18E411x7eT?p=4)
@@ -12,13 +14,15 @@ Spring Cloud 第二季：
 >
 > 笔者也 fork 了一份该源码：https://github.com/woodwhales/atguigu_spirngcloud2020
 >
-> 对应资料：[尚硅谷SpringCloud第2季2020.3.2.mmap](doc/尚硅谷SpringCloud第2季/尚硅谷SpringCloud第2季2020.3.2.mmap)，建议使用[百度脑图](https://naotu.baidu.com)打开（只能看文字，不能看图片）。
+> 对应资料：[尚硅谷SpringCloud第2季](doc/尚硅谷SpringCloud第2季)，建议使用[百度脑图](https://naotu.baidu.com)打开（只能看文字，不能看图片）。
 >
 > 网友整理的学习笔记或者资料：
 >
 > https://github.com/liusCoding/springcloud-2020
 >
 > https://github.com/leelovejava/cloud2020
+>
+> https://github.com/OT-mt/cloud2020
 
 
 所需软件：
@@ -39,6 +43,7 @@ zookeeper-3.4.11：https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zo
 
 想完全打开思维导图，则需要安装 MindManager：https://www.mindmanager.com/en/support/download-library/
 
+## 课程大纲
 
 课程大纲的思维导图如下：
 
@@ -48,9 +53,11 @@ zookeeper-3.4.11：https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zo
 
 # 一、微服务架构零基础理论入门(小白必看)
 
+## 笔记大纲
+
 技术要求：java8 + maven + git、github + Nginx + RabbotMQ + SpringBoot2.0
 
-Git 源码地址：https:github.com/spring-projects/spring-boot/releases/
+Git 源码地址：[https:github.com/spring-projects/spring-boot/releases/](https:github.com/spring-projects/spring-boot/releases/)
 
 Spring Cloud 视频教程第一季大纲：
 
@@ -59,6 +66,8 @@ Spring Cloud 视频教程第一季大纲：
 > 对应视频：[尚硅谷经典SpringCloud框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV1wW411V7Df)
 >
 > 对应资料：[尚硅谷SpringCloud第1季](doc/尚硅谷SpringCloud第1季)
+
+## 扩展资料
 
 尚硅谷Java面试题第一季：
 
@@ -106,6 +115,8 @@ juc 与 jvm _并发编程
 
 # 二、从2.2.x和H版开始说起
 
+## Spring Cloud 与 Spring Boot 版本对应关系
+
 Spring Boot 2.0 wiki：https:github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Release-Notes
 
 Spring Cloud 版本选择需要注意对应 Spring Boot 版本，在 Spring Cloud 官网中 https://spring.io/projects/spring-cloud/#overview 提到：
@@ -122,7 +133,9 @@ Spring Cloud 版本可支持的 Spring Boot 版本，在其官网：中已经写
 
 Spring 系列版本对应关系，官方参考地址：https://start.spring.io/actuator/info
 
-本笔记使用版本：
+## 本笔记使用版本
+
+本笔记统一使用如下版本：
 
 	cloud：Hoxton.SR1
 	boot：2.2.RELEASE
@@ -165,6 +178,165 @@ Spring 系列版本对应关系，官方参考地址：https://start.spring.io/a
   Spring Cloud Alibaba Nacos：替代品（主推）
 
 # 四、微服务架构编码、构建
+
+笔者使用的 IDEA 版本为：2020.2
+
+![](doc/images/code01/00.png)
+
+## 创建父工程
+
+### 创建maven工程
+
+![](doc/images/code01/01.png)
+
+![](doc/images/code01/02.png)
+
+### 设置编码字符集
+
+点击创建好的工程根目录，File -> setttings 设置字符集编码
+
+![](doc/images/code01/03.png)
+
+### 设置 IDEA 支持注解
+
+![](doc/images/code01/04.png)
+
+### 设置JDK编译版本
+
+![](doc/images/code01/05.png)
+
+### IDEA设置无关工程文件不显示
+
+参见笔者的博文：[IDEA 常用设置：忽略显示与工程无关的文件](https://woodwhales.cn/2020/03/03/060/#%E5%BF%BD%E7%95%A5%E6%98%BE%E7%A4%BA%E4%B8%8E%E5%B7%A5%E7%A8%8B%E6%97%A0%E5%85%B3%E7%9A%84%E6%96%87%E4%BB%B6)
+
+## 设置父工程POM
+
+将上述模板工程改造成空的父工程：
+
+![](doc/images/code01/06.png)
+
+设置版本依赖管理：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>cn.woodwhales</groupId>
+    <artifactId>spring-cloud-demo1</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>spring-cloud-demo1</name>
+    <url>http://woodwhales.cn/</url>
+
+    <!-- 统一管理jar包版本 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <junit.version>4.12</junit.version>
+        <log4j.version>1.2.17</log4j.version>
+        <lombok.version>1.16.18</lombok.version>
+        <mysql.version>8.0.18</mysql.version>
+        <druid.version>1.1.16</druid.version>
+        <druid.spring.boot.starter.version>1.1.10</druid.spring.boot.starter.version>
+        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
+        <spring.cloud.version>Hoxton.SR1</spring.cloud.version>
+        <spring.cloud.alibaba.version>2.1.0.RELEASE</spring.cloud.alibaba.version>
+        <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
+        <mybatis-spring-boot-starter.version>2.1.1</mybatis-spring-boot-starter.version>
+        <hutool-all.version>5.1.0</hutool-all.version>
+    </properties>
+
+    <!-- 子模块继承之后，提供作用：锁定版本 + 子module不用谢groupId和version -->
+    <dependencyManagement>
+        <dependencies>
+            <!--spring boot 2.2.2-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.2.2.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--spring cloud Hoxton.SR1-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Hoxton.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--Spring cloud alibaba 2.1.0.RELEASE-->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.spring.boot.starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--第三方maven私服-->
+    <repositories>
+        <repository>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+</project>
+```
+
+
 
 # 五、Eureka服务注册与发现
 
