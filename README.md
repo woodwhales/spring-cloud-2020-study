@@ -1,4 +1,7 @@
 # spring-cloud-2020-study
+
+> 如果使用 github 克隆仓库缓慢，可以移步到笔者在 gitee 平台实时同步的仓库：https://gitee.com/woodwhales/spring-cloud-2020-study
+
 # 概述
 
 > 本套学习笔记根据尚硅谷周阳老师的视频教程，进行的整理：[尚硅谷2020最新版SpringCloud(H版&alibaba)框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV18E411x7eT?p=4)
@@ -26,6 +29,8 @@
 技术要求：java8 + maven + git、github + Nginx + RabbotMQ + SpringBoot2.0
 
 Spring Cloud 第一季：
+
+![](doc/images/spring-cloud-2018.png)
 
 > 对应视频：[尚硅谷经典SpringCloud框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV1wW411V7Df)
 >
