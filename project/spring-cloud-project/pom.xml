@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.woodwhales</groupId>
-    <artifactId>spring-cloud-demo1</artifactId>
+    <artifactId>spring-cloud-project</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
 
-    <name>spring-cloud-demo1</name>
+    <name>spring-cloud-project</name>
     <url>http://woodwhales.cn/</url>
 
     <!-- 统一管理jar包版本 -->
