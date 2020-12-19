@@ -6,6 +6,10 @@
     <groupId>cn.woodwhales</groupId>
     <artifactId>spring-cloud-project</artifactId>
     <version>1.0.0</version>
+    <modules>
+        <module>cloud-provider-payment8001</module>
+        <module>cloud-api-commons</module>
+    </modules>
     <packaging>pom</packaging>
 
     <name>spring-cloud-project</name>
