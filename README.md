@@ -147,6 +147,8 @@ Spring 系列版本对应关系，官方参考地址：https://start.spring.io/a
 
 # 三、关于Cloud各种组件的停更/升级/替换
 
+![](doc\images\code01\11.png)
+
 截止 2020 年，Spring Cloud 各种组件的停更/升级/替换：
 
 - 服务注册中心
@@ -701,6 +703,176 @@ mybatis:
 ![](doc\images\code01\10.png)
 
 # 五、Eureka服务注册与发现
+
+## 搭建 eureka server 工程（cloud-eureka-server7001）
+
+### springboot 1.x 与 2.x 本版对比
+
+1.x 引入 eureka 依赖为：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-eureka</artifactId>
+</dependency>
+```
+
+2.x 引入 eureka 依赖为：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+```
+
+### pom依赖
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-cloud-project</artifactId>
+        <groupId>cn.woodwhales</groupId>
+        <version>2.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>cloud-eureka-server7001</artifactId>
+
+    <dependencies>
+        <!--eureka-server-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+        <!-- 引入自己定义的api通用包，可以使用Payment支付Entity -->
+        <dependency>
+            <groupId>cn.woodwhales</groupId>
+            <artifactId>cloud-api-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!--boot web actuator-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--一般通用配置-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+</project>
+```
+
+### 系统配置
+
+```yml
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: localhost #eureka服务端的实例名称
+  client:
+    #false表示不向注册中心注册自己
+    register-with-eureka: false
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+```
+
+### 启动
+
+给主启动类添加 @EnableEurekaServer 注解，启动成功之后，浏览器访问：http://127.0.0.1:7001/，可以看到一个空的 eureka 服务控制台界面。
+
+![](doc\images\code01\12.png)
+
+## 注册 cloud-provider-payment8001
+
+在 cloud-provider-payment8001 工程中引入：
+
+```xml
+<!--eureka-client-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+在启动类添加 @EnableEurekaClient 注解
+
+配置 eureka 配置：
+
+```yml
+eureka:
+  client:
+    #表示是否将自己注册进EurekaServer默认为true。
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认为true。
+    #单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      #单机版
+      defaultZone: http://localhost:7001/eureka
+```
+
+启动服务，可在 eureka server 控制台看到已经注册的 payment 服务：
+
+![](doc\images\code01\13.png)
+
+## 注册 cloud-consumer-order80
+
+在 cloud-consumer-order80 工程中引入：
+
+```xml
+<!--eureka-client-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+在启动类添加 @EnableEurekaClient 注解
+
+配置 eureka 配置：
+
+```yml
+eureka:
+  client:
+    #表示是否将自己注册进EurekaServer默认为true。
+    register-with-eureka: true
+    #是否从EurekaServer抓取已有的注册信息，默认为true。
+    #单节点无所谓，集群必须设置为true才能配合ribbon使用负载均衡
+    fetchRegistry: true
+    service-url:
+      #单机版
+      defaultZone: http://localhost:7001/eureka
+```
+
+启动服务，可在 eureka server 控制台看到已经注册的 order 服务：
+
+![](doc\images\code01\14.png)
 
 # 六、Zookeeper服务注册与发现
 
