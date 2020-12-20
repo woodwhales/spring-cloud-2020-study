@@ -880,6 +880,72 @@ eureka:
 
 ![](doc\images\code01\15.png)
 
+## 搭建 eureka 服务集群
+
+搭建 eureka 服务集群是为了：提升服务注册中心的高可用性，实现负载均衡和故障同错功能。
+
+按照搭建 cloud-eureka-server7001 工程步骤，搭建 cloud-eureka-server7001 工程。
+
+在单机版本的 eureka 服务注册中心配置中：
+
+```yml
+eureka:
+  instance:
+    hostname: localhost
+```
+
+eureka.instance.hostname 在 eureka 集群中不能名称重名，因此需要修改主机的 hosts 配置文件：
+
+```ini
+127.0.0.1 eureka7001.cn
+127.0.0.1 eureka7002.cn
+```
+
+分别修改 7001 和 7002 的系统配置文件：
+
+```yml
+server:
+  port: 7001
+
+eureka:
+  instance:
+    hostname: eureka7001.cn #eureka服务端的实例名称
+  client:
+    #false表示不向注册中心注册自己
+    register-with-eureka: false
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7002.cn:7002/eureka/
+```
+
+```yml
+server:
+  port: 7002
+
+eureka:
+  instance:
+    hostname: eureka7002.cn #eureka服务端的实例名称
+  client:
+    #false表示不向注册中心注册自己
+    register-with-eureka: false
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    service-url:
+      defaultZone: http://eureka7001.cn:7001/eureka/
+```
+
+启动 7001 和 7002 服务，访问：http://eureka7001.cn:7001/ 或者 http://eureka7002.cn:7002/，可以看见服务中心控制台界面。
+
+注册 order 和 payment 到集群的 eureka 注册中心，分别修改俩者注册到 eureka 服务注册中心的配置：
+
+```yml
+eureka:
+    service-url:
+      # 集群版
+      defaultZone: http://eureka7001.cn:7001/eureka,http://eureka7002.cn:7002/eureka
+```
+
 # 六、Zookeeper服务注册与发现
 
 # 七、Consul服务注册与发现

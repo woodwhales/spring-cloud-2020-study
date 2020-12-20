@@ -5,12 +5,13 @@
 
     <groupId>cn.woodwhales</groupId>
     <artifactId>spring-cloud-project</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <modules>
         <module>cloud-provider-payment8001</module>
         <module>cloud-api-commons</module>
         <module>cloud-consumer-order80</module>
         <module>cloud-eureka-server7001</module>
+        <module>cloud-eureka-server7002</module>
     </modules>
     <packaging>pom</packaging>
 
