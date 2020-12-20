@@ -696,7 +696,7 @@ mybatis:
 </project>
 ```
 
-## 微服务工程总结
+## 微服务工程搭建总结
 
 截止 v1.0.0 版本，本系统工程包含：cloud-api-commons、cloud-provider-payment8001、cloud-consumer-order80
 
@@ -873,6 +873,12 @@ eureka:
 启动服务，可在 eureka server 控制台看到已经注册的 order 服务：
 
 ![](doc\images\code01\14.png)
+
+## 微服务注册总结
+
+截止 2.0.0 版本，增加了一个 eureka 注册中心，并将 order 和 payment 服务注册到该注册中心：
+
+![](doc\images\code01\15.png)
 
 # 六、Zookeeper服务注册与发现
 
