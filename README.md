@@ -694,6 +694,12 @@ mybatis:
 </project>
 ```
 
+## 微服务工程总结
+
+截止 v1.0.0 版本，本系统工程包含：cloud-api-commons、cloud-provider-payment8001、cloud-consumer-order80
+
+![](doc\images\code01\10.png)
+
 # 五、Eureka服务注册与发现
 
 # 六、Zookeeper服务注册与发现
