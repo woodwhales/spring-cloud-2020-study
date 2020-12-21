@@ -946,6 +946,38 @@ eureka:
       defaultZone: http://eureka7001.cn:7001/eureka,http://eureka7002.cn:7002/eureka
 ```
 
+## 注册 payment 和 order 服务到集群 eureka server
+
+在 payment 和 order 工程配置中，将 配置修改为如下：
+
+```yml
+ eureka:
+  client:
+  	service-url:
+      # 单机配置
+      # defaultZone: http://eureka7001.cn:7001/eureka/、
+      # 集群配置
+      defaultZone: http://eureka7001.cn:7001/eureka/,http://eureka7002.cn:7002/eureka/
+```
+
+启动 eureka 服务，启动 order 和 payment 服务，访问任一 eureka server 集群节点（http://eureka7001.cn:7001/ 或者 http://eureka7002.cn:7002/），均可见俩个服务已成功注册到集群上：
+
+![](doc\images\code01\16.png)
+
+## 搭建子工程（cloud-provider-payment8002）
+
+按照 cloud-provider-payment8001 工程搭建步骤，搭建相同服务，以实现服务提供者为集群服务。
+
+值得注意的是，服务消费者 order 服务中调用 payment 的服务 http 请求地址需要修改为：
+
+```
+http://CLOUD-PROVIDER-PAYMENT
+```
+
+并在注册 RestTemplate 实例 bean 的时候添加 @LoadBalanced 注解，否则无法享受调用服务负载均衡。
+
+> @LoadBalanced 为 RestTemplate 提供了负载均衡能力。
+
 # 六、Zookeeper服务注册与发现
 
 # 七、Consul服务注册与发现
