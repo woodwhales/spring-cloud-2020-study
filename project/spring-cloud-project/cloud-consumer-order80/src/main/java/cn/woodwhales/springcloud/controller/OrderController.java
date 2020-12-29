@@ -4,6 +4,7 @@ import cn.woodwhales.springcloud.entity.CommonResult;
 import cn.woodwhales.springcloud.entity.Payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,8 +12,10 @@ import org.springframework.web.client.RestTemplate;
  * @author woodwhales
  * @date 2020-12-19 22:25
  */
-@RestController
 @Slf4j
+@Controller
+@RequestMapping("/consumer")
+@RestController
 public class OrderController {
 
     public static final String PAYMENT_URL = "http://CLOUD-PROVIDER-PAYMENT";
@@ -20,12 +23,12 @@ public class OrderController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @PostMapping("/consumer/payment/create")
+    @PostMapping("/payment/create")
     public CommonResult<Payment> create(Payment payment) {
         return restTemplate.postForObject(PAYMENT_URL + "/payment/create", payment, CommonResult.class);
     }
 
-    @GetMapping("/consumer/payment/get/{id}")
+    @GetMapping("/payment/get/{id}")
     public CommonResult<Payment> getPayment(@PathVariable("id") Long id) {
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
     }
