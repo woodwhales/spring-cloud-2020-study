@@ -978,6 +978,43 @@ http://CLOUD-PROVIDER-PAYMENT
 
 > @LoadBalanced 为 RestTemplate 提供了负载均衡能力。
 
+## 设置 actuator
+
+健康信息配置的必要性：
+
+![](doc\images\code01\17.png)
+
+当工程中引入了 actuator starter 之后，可以增加一些配置使得 eureka 更易运维。 
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+</dependency>
+```
+
+在系统配置文件中配置 eureka 实例 id：
+
+```yml
+eureka:
+  instance:
+    instance-id: payment8002
+```
+
+达到的效果为：
+
+![](doc\images\code01\18.png)
+
+设置 eureka 的访问路径显示 ip：
+
+```yml
+eureka:
+  instance:
+    prefer-ip-address: true
+```
+
+
+
 # 六、Zookeeper服务注册与发现
 
 # 七、Consul服务注册与发现
