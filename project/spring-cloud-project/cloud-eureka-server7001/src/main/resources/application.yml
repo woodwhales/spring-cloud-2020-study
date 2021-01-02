@@ -11,6 +11,10 @@ eureka:
     fetch-registry: false
     service-url:
       # 单机配置
-      # defaultZone: http://eureka7001.cn:7001/eureka/、
+      # defaultZone: http://eureka7001.cn:7001/eureka/
       # 集群配置
       defaultZone: http://eureka7001.cn:7001/eureka/,http://eureka7002.cn:7002/eureka/
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 2000

@@ -3,19 +3,17 @@ package cn.woodwhales.springcloud;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 /**
  * @author woodwhales
- * @date 2020-12-19 22:18
+ * @date 2021-01-02 24:03
  */
-@EnableDiscoveryClient
-@EnableEurekaClient
+@EnableDiscoveryClient // 该注解用于向使用consul或者zookeeper作为注册中心时注册服务
 @SpringBootApplication
-public class OrderMain80 {
+public class OrderMain8004 {
 
     public static void main(String[] args) {
-        SpringApplication.run(OrderMain80.class, args);
+        SpringApplication.run(OrderMain8004.class, args);
     }
 
 }

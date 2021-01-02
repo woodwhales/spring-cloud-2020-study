@@ -1013,7 +1013,142 @@ eureka:
     prefer-ip-address: true
 ```
 
+## 设置服务发现Discovery
+
+使用 @EnableDiscoveryClient 注解，开启 eureka 服务注册发现功能。
+
+在业务代码中引入 DiscoveryClient 实例即可获取 eureka 注册中心中已经成功注册的所有服务信息，demo 用法参见：cn.woodwhales.springcloud.controller.OrderController#discovery
+
+```java
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    public Object discovery() {
+        // 获取所有serviceId
+        List<String> serviceIds = discoveryClient.getServices();
+        Map<String, Map<String, Object>> eurekaMap = new HashMap<>(serviceIds.size());
+        for (String serviceId : serviceIds) {
+            Map<String, Object> instanceInfoMap = new HashMap<>(5);
+            // 通过serviceId获取相应的服务详情信息
+            List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
+            for (ServiceInstance instance : instances) {
+                instanceInfoMap.put("serviceId", instance.getServiceId());
+                instanceInfoMap.put("instanceId", instance.getInstanceId());
+                instanceInfoMap.put("host", instance.getHost());
+                instanceInfoMap.put("port", instance.getPort());
+                instanceInfoMap.put("uri", instance.getUri());
+            }
+            eurekaMap.put(serviceId, instanceInfoMap);
+        }
+        return eurekaMap;
+    }
+```
+
+## 自我保护机制
+
+eureka 属于了 CAP 理论中的 AP。
+
+在某个时刻某个服务发生故障了，eureka 注册中心不会立即将该服务清理下线，而是依旧会对该服务节点信息进行保存。
+
+## 关闭自我保护机制
+
+eureka server 端
+
+```yml
+eureka:
+  server:
+    # 关闭自我保护机制
+    enable-self-preservation: false
+    eviction-interval-timer-in-ms: 2000
+```
+
+eureka client 端
+
+```yml
+eureka:
+  instance:
+    #Eureka客户端向服务端发送心跳的时间间隔，单位为秒(默认是30秒)
+    lease-renewal-interval-in-seconds: 1
+    #Eureka服务端在收到最后一次心跳后等待时间上限，单位为秒(默认是90秒)，超时将剔除服务
+    lease-expiration-duration-in-seconds: 2
+```
+
 # 六、Zookeeper服务注册与发现
+
+搭建 cloud-provider-payment8004 工程，使用 zk 进行服务注册。搭建 zk 服务参见：[zookeeper window环境安装、集成为windows服务、单机伪集群搭建](https://woodwhales.cn/2020/04/06/065/)
+
+## 配置pom
+
+核心的依赖为：spring-cloud-starter-zookeeper-discovery，需要注意的是该启动器自身已经包含了一个 zk jar包，如果和要链接的 zk 服务器版本不一致，需要排除掉这个自身带的 zk，依赖和 zk 服务器版本一致的 zk jar 包。 
+
+```xml
+<!-- SpringBoot整合zookeeper客户端 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+    <!--先排除自带的zookeeper3.5.3-->
+    <exclusions>
+        <exclusion>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+<!--添加zookeeper3.4.11版本-->
+<dependency>
+    <groupId>org.apache.zookeeper</groupId>
+    <artifactId>zookeeper</artifactId>
+    <version>3.4.11</version>
+</dependency>
+```
+
+## 配置yml
+
+设置 zk 链接源
+
+```yml
+server:
+  address: 0.0.0.0
+  port: 8004
+
+# 服务别名 --- 注册zookeeper到注册中心名称
+spring:
+  application:
+    name: cloud-provider-payment
+  cloud:
+    zookeeper:
+      connect-string: 127.0.0.1:2181
+```
+
+## 主启动类
+
+在主启动类上添加：@EnableDiscoveryClient 注解
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+
+/**
+ * @author woodwhales
+ * @date 2021-01-02 24:03
+ */
+@EnableDiscoveryClient // 该注解用于向使用consul或者zookeeper作为注册中心时注册服务
+@SpringBootApplication
+public class OrderMain8004 {
+
+    public static void main(String[] args) {
+        SpringApplication.run(OrderMain8004.class, args);
+    }
+
+}
+```
+
+先启动 zk 服务器，再启动 cloud-provider-payment8004 服务，可以在 zk 中看到已经成功注册的节点信息：
+
+![](doc/images/code01/19.png)
+
+注意：zk 是 CAP 中的 CP，当某个节点在一定时间内无心跳回应，zk 服务器会将该节点删除。当这个节点重新恢复回来，则 zk 服务器会生成新的节点 id。因此 zk 中存储的服务信息为临时节点。
 
 # 七、Consul服务注册与发现
 
