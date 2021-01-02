@@ -1013,8 +1013,6 @@ eureka:
     prefer-ip-address: true
 ```
 
-
-
 # 六、Zookeeper服务注册与发现
 
 # 七、Consul服务注册与发现

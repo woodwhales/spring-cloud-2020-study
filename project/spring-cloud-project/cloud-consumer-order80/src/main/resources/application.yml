@@ -15,3 +15,6 @@ eureka:
     service-url:
       # 集群版
       defaultZone: http://eureka7001.cn:7001/eureka,http://eureka7002.cn:7002/eureka
+  instance:
+    instance-id: order-service80
+    prefer-ip-address: true
