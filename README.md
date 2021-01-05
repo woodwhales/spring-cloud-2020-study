@@ -1075,6 +1075,8 @@ eureka:
 
 # 六、Zookeeper服务注册与发现
 
+> 工程示例：cloud-provider-payment8004
+
 搭建 cloud-provider-payment8004 工程，使用 zk 进行服务注册。搭建 zk 服务参见：[zookeeper window环境安装、集成为windows服务、单机伪集群搭建](https://woodwhales.cn/2020/04/06/065/)
 
 ## 配置pom
@@ -1122,6 +1124,8 @@ spring:
 
 ## 主启动类
 
+> 工程示例：cloud-provider-payment8004
+
 在主启动类上添加：@EnableDiscoveryClient 注解
 
 ```java
@@ -1148,7 +1152,7 @@ public class OrderMain8004 {
 
 ![](doc/images/code01/19.png)
 
-注意：zk 是 CAP 中的 CP，当某个节点在一定时间内无心跳回应，zk 服务器会将该节点删除。当这个节点重新恢复回来，则 zk 服务器会生成新的节点 id。因此 zk 中存储的服务信息为临时节点。
+注意：zk 是 CAP 中的 CP，当某个节点在一定时间内无心跳回应，zk 服务器会将该节点删除。当这个节点重新恢复回来，则 zk 服务器会生成新的节点 id。因此 zk 中存储的服务信息为**临时节点**。
 
 # 七、Consul服务注册与发现
 
