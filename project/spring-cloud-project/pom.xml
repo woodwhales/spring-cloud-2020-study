@@ -7,14 +7,21 @@
     <artifactId>spring-cloud-project</artifactId>
     <version>3.0.0</version>
     <modules>
-        <module>cloud-provider-payment8001</module>
-        <module>cloud-provider-payment8002</module>
+        <!-- commons -->
         <module>cloud-api-commons</module>
+
+        <!-- consumer-order -->
         <module>cloud-consumer-order80</module>
+        <module>cloud-consumer-zk-order80</module>
+
+        <!-- eureka server -->
         <module>cloud-eureka-server7001</module>
         <module>cloud-eureka-server7002</module>
-        <module>cloud-provider-payment8004</module>
-        <module>cloud-consumer-zk-order80</module>
+
+        <!-- payment -->
+        <module>cloud-provider-payment8001</module>
+        <module>cloud-provider-payment8002</module>
+        <module>cloud-provider-zk-payment8004</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -26,6 +33,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <lombok.version>1.16.18</lombok.version>
@@ -96,16 +104,24 @@
     </dependencyManagement>
 
     <build>
+        <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.4.1</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 
     <!--第三方maven私服-->

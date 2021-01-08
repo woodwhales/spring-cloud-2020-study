@@ -1,6 +1,7 @@
 package cn.woodwhales.springcloud.controller;
 
 import cn.woodwhales.springcloud.entity.CommonResult;
+import cn.woodwhales.springcloud.entity.Payment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,9 @@ public class PaymentController {
 
     @GetMapping(value = "/payment/zk/{id}")
     public CommonResult<String> paymentzk(@PathVariable Integer id) {
-        return new CommonResult(200, "响应成功", "springcloud with zookeeper: "+serverPort+"\t"+ UUID.randomUUID().toString());
+        Payment payment = new Payment();
+        payment.setId(Long.valueOf(id + ""));
+        payment.setSerial(UUID.randomUUID().toString());
+        return new CommonResult(200, "zk-payment, 响应成功, serverPort = " + serverPort, payment);
     }
 }

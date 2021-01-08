@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: cloud-zk-order-service
+    name: cloud-consumer-zk-order
   cloud:
     zookeeper:
       connect-string: 127.0.0.1:2181
