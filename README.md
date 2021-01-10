@@ -47,7 +47,7 @@ zookeeper-3.4.11：https://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zo
 
 课程大纲的思维导图如下：
 
-<img src="./doc/images/spring-cloud-2020-study-guide.png" style="zoom:80%;" />
+<img src="doc/images/spring-cloud-2020-study-guide.png" style="zoom:80%;" />
 
 因为上述思维导图文件太大，不利于快速打开阅读学习，所以笔者在此思维导图基础上结合视频教程，自己整理一套属于自己的学习笔记。
 
@@ -61,7 +61,7 @@ Git 源码地址：[https:github.com/spring-projects/spring-boot/releases/](http
 
 Spring Cloud 视频教程第一季大纲：
 
-<img src="./doc/images/spring-cloud-2018.png" style="zoom:80%;" />
+<img src="doc/images/spring-cloud-2018.png" style="zoom:80%;" />
 
 > 对应视频：[尚硅谷经典SpringCloud框架开发教程全套完整版从入门到精通(大牛讲授spring cloud)](https://www.bilibili.com/video/BV1wW411V7Df)
 >
@@ -121,15 +121,15 @@ Spring Boot 2.0 wiki：https:github.com/spring-projects/spring-boot/wiki/Spring-
 
 Spring Cloud 版本选择需要注意对应 Spring Boot 版本，在 Spring Cloud 官网中 https://spring.io/projects/spring-cloud/#overview 提到：
 
-<img src="./doc/images/spring-cloud-and-spring-boot-version.png" style="zoom:80%;" />
+<img src="doc/images/spring-cloud-and-spring-boot-version.png" style="zoom:80%;" />
 
 本视频教程时，2020 年 02 月 15 日 之前，Spring Cloud 最新版本为：Hoxton.SR1，支持的 Spring Boot 版本为：2.2.2.RELEASE。
 
 Spring Cloud 版本可支持的 Spring Boot 版本，在其官网：中已经写明：
 
-<img src="./doc/images/spring-cloud-guide1.png" style="zoom:80%;" />
+<img src="doc/images/spring-cloud-guide1.png" style="zoom:80%;" />
 
-<img src="./doc/images/spring-cloud-guide2.png" style="zoom:80%;" />
+<img src="doc/images/spring-cloud-guide2.png" style="zoom:80%;" />
 
 Spring 系列版本对应关系，官方参考地址：https://start.spring.io/actuator/info
 
@@ -147,7 +147,7 @@ Spring 系列版本对应关系，官方参考地址：https://start.spring.io/a
 
 # 三、关于Cloud各种组件的停更/升级/替换
 
-![](doc\images\code01\11.png)
+![](doc/images/code01/11.png)
 
 截止 2020 年，Spring Cloud 各种组件的停更/升级/替换：
 
@@ -184,29 +184,29 @@ Spring 系列版本对应关系，官方参考地址：https://start.spring.io/a
 
 笔者使用的 IDEA 版本为：2020.2
 
-<img src="./doc/images/code01/00.png" style="zoom:80%;" />
+<img src="doc/images/code01/00.png" style="zoom:80%;" />
 
 ## 创建父工程
 
 ### 创建maven工程
 
-![](./doc/images/code01/01.png)
+![](doc/images/code01/01.png)
 
-![](./doc/images/code01/02.png)
+![](doc/images/code01/02.png)
 
 ### 设置编码字符集
 
 点击创建好的工程根目录，File -> setttings 设置字符集编码
 
-<img src="./doc/images/code01/03.png" style="zoom:80%;" />
+<img src="doc/images/code01/03.png" style="zoom:80%;" />
 
 ### 设置 IDEA 支持注解
 
-<img src="./doc/images/code01/04.png" style="zoom:80%;" />
+<img src="doc/images/code01/04.png" style="zoom:80%;" />
 
 ### 设置JDK编译版本
 
-<img src="./doc/images/code01/05.png" style="zoom:80%;" />
+<img src="doc/images/code01/05.png" style="zoom:80%;" />
 
 ### IDEA设置无关工程文件不显示
 
@@ -216,7 +216,7 @@ Spring 系列版本对应关系，官方参考地址：https://start.spring.io/a
 
 将上述模板工程改造成空的父工程：
 
-![](./doc/images/code01/06.png)
+![](doc/images/code01/06.png)
 
 设置版本依赖管理：
 
@@ -635,15 +635,15 @@ mybatis:
 
 ### 步骤3：设置 IDEA 及时编译
 
-<img src="doc\images\code01\07.png" style="zoom:80%;" />
+<img src="doc/images/code01/07.png" style="zoom:80%;" />
 
 ### 步骤4：IDEA 系统参数设置
 
 按键：ctrl+shift+alt+/，搜索 Registry
 
-<img src="doc\images\code01\08.png" style="zoom:80%;" />
+<img src="doc/images/code01/08.png" style="zoom:80%;" />
 
-<img src="doc\images\code01\09.png" style="zoom:80%;" />
+<img src="doc/images/code01/09.png" style="zoom:80%;" />
 
 ## 搭建子工程（cloud-consumer-order80）
 
@@ -700,7 +700,7 @@ mybatis:
 
 截止 v1.0.0 版本，本系统工程包含：cloud-api-commons、cloud-provider-payment8001、cloud-consumer-order80
 
-![](doc\images\code01\10.png)
+![](doc/images/code01/10.png)
 
 # 五、Eureka服务注册与发现
 
@@ -806,7 +806,7 @@ eureka:
 
 给主启动类添加 @EnableEurekaServer 注解，启动成功之后，浏览器访问：http://127.0.0.1:7001/，可以看到一个空的 eureka 服务控制台界面。
 
-<img src="doc\images\code01\12.png" style="zoom:80%;" />
+<img src="doc/images/code01/12.png" style="zoom:80%;" />
 
 ## 注册 cloud-provider-payment8001
 
@@ -839,7 +839,7 @@ eureka:
 
 启动服务，可在 eureka server 控制台看到已经注册的 payment 服务：
 
-<img src="doc\images\code01\13.png" style="zoom:80%;" />
+<img src="doc/images/code01/13.png" style="zoom:80%;" />
 
 ## 注册 cloud-consumer-order80
 
@@ -872,13 +872,13 @@ eureka:
 
 启动服务，可在 eureka server 控制台看到已经注册的 order 服务：
 
-<img src="doc\images\code01\14.png" style="zoom:80%;" />
+<img src="doc/images/code01/14.png" style="zoom:80%;" />
 
 ## 微服务注册总结
 
 截止 2.0.0 版本，增加了一个 eureka 注册中心，并将 order 和 payment 服务注册到该注册中心：
 
-<img src="doc\images\code01\15.png" style="zoom:80%;" />
+<img src="doc/images/code01/15.png" style="zoom:80%;" />
 
 ## 搭建 eureka 服务集群
 
@@ -962,7 +962,7 @@ eureka:
 
 启动 eureka 服务，启动 order 和 payment 服务，访问任一 eureka server 集群节点（http://eureka7001.cn:7001/ 或者 http://eureka7002.cn:7002/），均可见俩个服务已成功注册到集群上：
 
-<img src="doc\images\code01\16.png" style="zoom:80%;" />
+<img src="doc/images/code01/16.png" style="zoom:80%;" />
 
 ## 搭建子工程（cloud-provider-payment8002）
 
@@ -982,7 +982,7 @@ http://CLOUD-PROVIDER-PAYMENT
 
 健康信息配置的必要性：
 
-<img src="doc\images\code01\17.png" style="zoom:80%;" />
+<img src="doc/images/code01/17.png" style="zoom:80%;" />
 
 当工程中引入了 actuator starter 之后，可以增加一些配置使得 eureka 更易运维。 
 
@@ -1003,7 +1003,7 @@ eureka:
 
 达到的效果为：
 
-<img src="doc\images\code01\18.png" style="zoom:80%;" />
+<img src="doc/images/code01/18.png" style="zoom:80%;" />
 
 设置 eureka 的访问路径显示 ip：
 
@@ -1150,7 +1150,7 @@ public class OrderMain8004 {
 
 先启动 zk 服务器，再启动 cloud-provider-payment8004 服务，可以在 zk 中看到已经成功注册的节点信息：
 
-<img src="./doc/images/code01/19.png" style="zoom:80%;" />
+<img src="doc/images/code01/19.png" style="zoom:80%;" />
 
 注意：zk 是 CAP 中的 CP，当某个节点在一定时间内无心跳回应，zk 服务器会将该节点删除。当这个节点重新恢复回来，则 zk 服务器会生成新的节点 id。因此 zk 中存储的服务信息为**临时节点**。
 
@@ -1198,7 +1198,12 @@ spring:
 
 启动工程之后，浏览器访问：http://127.0.0.1:8500/ 即可看到已成功注册的服务节点信息：
 
-<img src="./doc/images/code01/20.png" style="zoom:80%;" />
+<img src="doc/images/code01/20.png" style="zoom:80%;" />
+
+## Eureka、Zookeeper、Consul 对比
+
+<img src="doc/images/code01/21.png" style="zoom:80%;" />
+
 
 # 八、Ribbon负载均衡调用
 
