@@ -1204,8 +1204,28 @@ spring:
 
 <img src="doc/images/code01/21.png" style="zoom:80%;" />
 
-
 # 八、Ribbon负载均衡调用
+
+Ribbon 是一个软负载均衡的客户端软件。
+
+spring-cloud-starter-netflix-eureka-client 自身包含了 Ribbon 依赖，因此只需要引入 spring-cloud-starter-netflix-eureka-client 就已经集成了 Ribbon：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
+使用 IDEA 的 maven helper 插件查看依赖关系也可以看出：
+
+<img src="doc/images/code01/22.png" style="zoom:80%;" />
+
+## RestTemplate的 xxEntity 和 xxGetObject 方法对比
+
+## Ribbon 负载均衡规则
+
+
 
 # 九、OpenFeign服务接口调用
 
