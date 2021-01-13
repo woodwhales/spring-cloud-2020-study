@@ -26,6 +26,7 @@
         <module>cloud-provider-consul-payment8005</module>
         <module>cloud-consumer-custom-ribbon-order80</module>
         <module>cloud-consumer-custom-my-ribbon-order80</module>
+        <module>cloud-consumer-openfeign-order80</module>
     </modules>
     <packaging>pom</packaging>
 

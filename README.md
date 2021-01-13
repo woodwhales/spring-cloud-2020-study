@@ -1430,6 +1430,93 @@ public class OrderController {
 
 # 九、OpenFeign服务接口调用
 
+引入依赖
+
+```xml
+        <!--openfeign-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+```
+
+在启动类开启注解
+
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
+
+/**
+ * @author woodwhales
+ * @date 2021-01-14 00:17
+ */
+@EnableFeignClients
+@SpringBootApplication
+public class OpenFeignOrderMain80 {
+
+    public static void main(String[] args) {
+        SpringApplication.run(OpenFeignOrderMain80.class, args);
+    }
+
+}
+```
+
+编写接口，并添加 @FeignClient 注解
+
+```java
+import cn.woodwhales.springcloud.entity.CommonResult;
+import cn.woodwhales.springcloud.entity.Payment;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Component
+@FeignClient(value = "CLOUD-PROVIDER-PAYMENT")
+public interface PaymentService {
+
+    @GetMapping(value = "/payment/get/{id}")
+    CommonResult<Payment> getPaymentById(@PathVariable("id") Long id);
+}
+
+```
+
+使用 openFeign
+
+```java
+import cn.woodwhales.springcloud.entity.CommonResult;
+import cn.woodwhales.springcloud.entity.Payment;
+import cn.woodwhales.springcloud.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @author woodwhales
+ * @date 2020-12-19 22:25
+ */
+@Slf4j
+@Controller
+@RequestMapping("/consumer")
+@RestController
+public class OrderController {
+
+    @Autowired
+    private PaymentService paymentService;
+
+    @GetMapping("/payment/get/{id}")
+    public CommonResult<Payment> getPayment(@PathVariable("id") Long id) {
+        return paymentService.getPaymentById(id);
+    }
+
+}
+```
+
 # 十、Hystrix断路器
 
 # 十一、Zuul路由网关
