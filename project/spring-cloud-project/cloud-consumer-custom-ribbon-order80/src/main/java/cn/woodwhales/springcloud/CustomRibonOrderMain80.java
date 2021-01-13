@@ -20,10 +20,10 @@ import org.springframework.context.annotation.FilterType;
 @EnableDiscoveryClient
 @EnableEurekaClient
 @SpringBootApplication
-public class CustomRibbonOrderMain80 {
+public class CustomRibonOrderMain80 {
 
     public static void main(String[] args) {
-        SpringApplication.run(CustomRibbonOrderMain80.class, args);
+        SpringApplication.run(CustomRibonOrderMain80.class, args);
     }
 
 }

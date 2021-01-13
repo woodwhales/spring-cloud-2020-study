@@ -1296,6 +1296,138 @@ public interface IRule{
 | ResponseTimeWeightedRule  | 响应时间加权重策略 | 根据server的响应时间分配权重，响应时间越长，权重越低，被选择到的概率也就越低。响应时间越短，权重越高，被选中的概率越高，这个策略很贴切，综合了各种因素，比如：网络，磁盘，io等，都直接影响响应时间 |
 | ZoneAvoidanceRule         | 区域权重策略       | 综合判断server所在区域的性能，和server的可用性，轮询选择server并且判断一个AWS Zone的运行性能是否可用，剔除不可用的Zone中的所有server |
 
+## 自定义负轮询载均衡策略
+
+步骤1：定义自定义负载均衡接口
+
+```java
+import java.util.List;
+
+/**
+ * @author woodwhales
+ * @date 2021-01-13 23:03
+ */
+@Component
+public interface MyLoadBalancer {
+
+    /**
+     * 从可用节点列表中获取要执行的节点
+     * @param serviceInstances
+     * @return
+     */
+    ServiceInstance getInstance(List<ServiceInstance> serviceInstances);
+
+}
+```
+
+步骤2：模仿 com.netflix.loadbalancer.RoundRobinRule 策略编写自定义 ribbon 策略
+
+自定义 ribbon 策略的核心在于，使用自旋锁统计请求的次数。使用请求的第几次取模可用节点数得到可用节点的索引。
+
+```java
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/**
+ * @author woodwhales
+ * @date 2021-01-13 23:22
+ */
+@Slf4j
+@Component
+public class MyLoadBalancerImpl implements MyLoadBalancer {
+   
+    private AtomicInteger atomicInteger = new AtomicInteger(0);
+
+    /**
+     * 统计请求次数，采用自旋锁方式获取请求次数
+     * @return
+     */
+    private final int compareAndGet() {
+        int current;
+        int next;
+        do {
+            current = atomicInteger.get();
+            next = current >= Integer.MAX_VALUE ? 0 : current + 1;
+        } while (!atomicInteger.compareAndSet(current, next));
+
+        log.info("*********** next => {} ***********", next);
+        return next;
+    }
+    
+    @Override
+    public ServiceInstance getInstance(List<ServiceInstance> serviceInstances) {
+        // 请求的第几次 % 可用节点总数 = 当前要执行的节点
+        int index = compareAndGet() % serviceInstances.size();
+        return serviceInstances.get(index);
+    }
+}
+```
+
+步骤3：使用自定义策略
+
+注意在注册 RestTemplate 为 bean 的配置类中，将 @LoadBalanced 注解去除。
+
+```java
+import cn.woodwhales.springcloud.entity.CommonResult;
+import cn.woodwhales.springcloud.entity.Payment;
+import cn.woodwhales.springcloud.ribbon.MyLoadBalancer;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
+import java.util.List;
+
+import static java.util.Objects.isNull;
+
+/**
+ * @author woodwhales
+ * @date 2020-12-19 22:25
+ */
+@Slf4j
+@Controller
+@RequestMapping("/consumer")
+@RestController
+public class OrderController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private MyLoadBalancer myLoadBalancer;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @GetMapping("/payment/get/{id}")
+    public CommonResult<Payment> getPayment(@PathVariable("id") Long id) {
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PROVIDER-PAYMENT");
+
+        if(isNull(instances) || instances.isEmpty()) {
+            return null;
+        }
+
+        ServiceInstance serviceInstance = myLoadBalancer.getInstance(instances);
+        URI uri = serviceInstance.getUri();
+        return restTemplate.getForObject(uri + "/payment/get/" + id, CommonResult.class);
+    }
+
+}
+```
+
+
+
 # 九、OpenFeign服务接口调用
 
 # 十、Hystrix断路器
