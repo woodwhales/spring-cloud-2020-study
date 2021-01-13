@@ -13,9 +13,10 @@ import org.springframework.context.annotation.FilterType;
 /**
  * @author woodwhales
  * @date 2020-12-19 22:18
+ * 排序掉 ExcludeFromComponentScan 注解标记的类，不被 ComponentScan 扫描到
  */
 @RibbonClient(name = "CLOUD-PROVIDER-PAYMENT", configuration = MyRibbonConfig.class)
-@ComponentScan(excludeFilters= {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= ExcludeFromComponentScan.class)})
+@ComponentScan(excludeFilters= {@ComponentScan.Filter(type= FilterType.ANNOTATION, value= ExcludeFromComponentScan.class)})
 @EnableDiscoveryClient
 @EnableEurekaClient
 @SpringBootApplication

@@ -15,6 +15,7 @@ public class MyRibbonConfig {
 
     @Bean
     public IRule ribbonClient() {
+        // 自定义ribbon的策略为随机策略
         return new RandomRule();
     }
 
