@@ -1430,6 +1430,12 @@ public class OrderController {
 
 # 九、OpenFeign服务接口调用
 
+github：https://github.com/OpenFeign/feign
+
+官网地址：https://docs.spring.io/spring-cloud-openfeign/docs/
+
+## 服务调用
+
 引入依赖
 
 ```xml
