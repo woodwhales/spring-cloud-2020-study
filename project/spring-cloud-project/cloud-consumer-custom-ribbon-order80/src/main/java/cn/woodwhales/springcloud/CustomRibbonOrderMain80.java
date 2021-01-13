@@ -1,17 +1,21 @@
 package cn.woodwhales.springcloud;
 
-import cn.woodwhales.ribbon.MyRibbonConfig;
+import cn.woodwhales.springcloud.config.ExcludeFromComponentScan;
+import cn.woodwhales.springcloud.config.MyRibbonConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 
 /**
  * @author woodwhales
  * @date 2020-12-19 22:18
  */
-@RibbonClient(name = "custom", configuration = MyRibbonConfig.class)
+@RibbonClient(name = "CLOUD-PROVIDER-PAYMENT", configuration = MyRibbonConfig.class)
+@ComponentScan(excludeFilters= {@ComponentScan.Filter(type= FilterType.ANNOTATION,value= ExcludeFromComponentScan.class)})
 @EnableDiscoveryClient
 @EnableEurekaClient
 @SpringBootApplication
