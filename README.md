@@ -1523,6 +1523,23 @@ public class OrderController {
 }
 ```
 
+## OpenFeign超时控制
+
+OpenFeign starter 组件默认集成了 Ribbon，客户端调用服务默认容忍等待时长为 1 秒，即在不进行任何配置的情况下，使用 OpenFeign 调用服务的提供者响应时长必须在 1 秒之内，否则会 OpenFeign 会强行报异常。
+
+在某些业务场景中，提供者必须响应超过 1 秒，则需要 OpenFeign 客户端配置超长响应时长：
+
+```yml
+#设置feign客户端超时时间(OpenFeign默认支持ribbon)
+ribbon:
+  #指的是建立连接所用的时间，适用于网络状况正常的情况下,两端连接所用的时间
+  ReadTimeout: 5000
+  #指的是建立连接后从服务器读取到可用资源所用的时间
+  ConnectTimeout: 5000
+```
+
+上述配置表示，容忍 OpenFeign 调用服务提供者的响应时长 5 秒。
+
 # 十、Hystrix断路器
 
 # 十一、Zuul路由网关
